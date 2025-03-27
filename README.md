@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/vending.jpg" alt="Nice picture of my vending machine circuit with the power supply" height="300">
 
-The purpose of this repository is to demonstrate a mock vending machine ciruit built on a breadboard with just some switches, wires, LEDs, resistors, and two integrated circuits. The heart of this circuit is the SR latch, which can be made with a single 7402 IC. The SR latch functions much like a transistor, able to hold a single bit of memory.
+The purpose of this repository is to demonstrate a mock vending machine ciruit built on a breadboard with just some switches, wires, LEDs, resistors, and two integrated circuits. Later, I'll demonstrate how this wiring can be simplified with a Raspberry Pi. The heart of this circuit is the SR latch, which can be made with a single 7402 IC. The SR latch functions much like a transistor, able to hold a single bit of memory.
 
 <img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/sr-latch.png" alt="SR latch circuit diagram" height="300">
 
@@ -23,6 +23,18 @@ With the COIN LED lit up, you can then press and hold the VEND button to simulat
 <img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/labeled-vending-vend.png" height="300"><img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/labeled-vending-vend-off.png" height="300">
 
 The advantage of this setup over a standalone SR latch is that the action comes after the condition is set. If I built a working vending machine with just an SR latch, it would drop my snacks as soon as I put the money in. This is not ideal, so the AND gate allows the user to insert money and then take time to decide what they want. Another advantage is modularity. With a single latch, this system could be expanded with multiple VEND buttons controlling different LED's to simulate the different snack choices a real machine would have to offer.
+
+## Offloading Logic to a Raspberry Pi
+
+Using a Raspberry Pi in our circuit greatly simplifies our breadboard wiring. We can omit the IC chips, capacitors, and one of the LEDs in favor of a couple buttons and wires. The most challenging part now is connecting our circuit to the Pi and coding in Python. In order to connect to the Pi's General Purpose Input/Output (GPIO) pins, we need to know what each one does.
+
+<img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/gpio-reference.png" height="300">
+
+This reference image from our book labels each pin and its function. The 3.3 and 5 volt pins constantly supply their respective voltages, and "GND" denotes each ground pin. All the other pins are labeled with GPIO 1 through 26; they'll be the backbone of this project. GPIO pins are responsible for detecting and outputting digital signals. "Digital" means that the pins can only read boolean values (ON or OFF). Voltages below 3.3 volts are considered OFF, while voltages above that are considered ON. For our project, we'll use pins 3, 5, 7, and 9.
+
+<img src="https://raw.githubusercontent.com/bedrockskeleton/vending-machine/refs/heads/main/images/vending-pi-circuit-diagram.png" height="300">
+
+This is the updated wiring diagram for our Pi-based vending machine. 
 
 ### Works Cited
 
